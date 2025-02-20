@@ -170,6 +170,19 @@ function IssueDetails({ issue }) {
         </ul>
       </SectionCard>
 
+      {/* New Section: Helpful Links */}
+<SectionCard title="Helpful Links 🔗" icon={<FaLink className="text-blue-500" />}>
+  <p className="text-gray-700">
+    Useful resources to understand and resolve the issue:
+  </p>
+  <ul className="list-disc pl-5 text-gray-700 space-y-2">
+    <li><a href="https://developer.apple.com/documentation/" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">Apple Developer Documentation</a></li>
+    <li><a href="https://swift.org/documentation/" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">Swift Official Documentation</a></li>
+    <li><a href="https://stackoverflow.com/" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">Stack Overflow</a></li>
+    <li><a href="https://github.com/" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">GitHub Repositories</a></li>
+  </ul>
+</SectionCard>
+
       {isFullScreen && (
         <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-xl shadow-2xl w-11/12 max-w-4xl relative">
