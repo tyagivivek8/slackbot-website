@@ -100,6 +100,7 @@ function IssueDetails({ issue }) {
         <DetailItem label="Assigned to" value={issue.devAssigned || "Unassigned"} />
         <DetailItem label="Track" value={issue.track || "Not specified"} />
         <DetailItem label="Reported by" value={issue.reportedBy || "Anonymous"} />
+        <DetailItem label="Issue date" value={issue.reportedBy || "24-02-2025"} />
       </SectionCard>
 
       <SectionCard title="Issue Summary " icon={<FaListAlt className="text-green-500" />}> 
