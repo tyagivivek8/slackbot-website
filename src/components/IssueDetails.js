@@ -29,6 +29,7 @@ function GeminiChatbot() {
       });
 
       const data = await response.json();
+      console.log(data)
       setChatHistory((prev) => [...prev, { sender: "gemini", text: data.reply }]);
     } catch (error) {
       setChatHistory((prev) => [...prev, { sender: "gemini", text: "Error fetching response." }]);
@@ -90,18 +91,18 @@ function IssueDetails({ issue }) {
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
     >
-      <SectionCard title="Issue Details 🃏" icon={<FaRegClone className="text-red-500" />}> 
+      <SectionCard title="Issue Details " icon={<FaRegClone className="text-red-500" />}> 
         <DetailItem label="ID" value={issue.issueId} />
         <DetailItem label="Assigned to" value={issue.devAssigned || "Unassigned"} />
         <DetailItem label="Track" value={issue.track || "Not specified"} />
         <DetailItem label="Reported by" value={issue.reportedBy || "Anonymous"} />
       </SectionCard>
 
-      <SectionCard title="Issue Summary 📋" icon={<FaListAlt className="text-green-500" />}> 
+      <SectionCard title="Issue Summary " icon={<FaListAlt className="text-green-500" />}> 
         <p className="text-gray-700">{issue.summary || "No summary provided."}</p>
       </SectionCard>
 
-      <SectionCard title="Issue Description 🛠️" icon={<FaTools className="text-blue-500" />}> 
+      <SectionCard title="Issue Description " icon={<FaTools className="text-blue-500" />}> 
         <p className="text-gray-700">{issue.description || "No description available."}</p>
       </SectionCard>
 
