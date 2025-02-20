@@ -1,0 +1,99 @@
+import React from "react";
+import CollapsibleSection from "./CollapsibleSection";
+import RelatedList from "./RelatedList";
+import UserJourney from "./UserJourney";
+import { motion } from "framer-motion";
+import { FaBug, FaTools, FaMobileAlt, FaLightbulb, FaListAlt, FaSlackHash, FaUser, FaFlag, FaRoute } from "react-icons/fa";
+
+function IssueDetails({ issue }) {
+  if (!issue) {
+    return (
+      <div className="text-center text-gray-500 mt-8 text-lg animate-pulse">
+        🕵️‍♂️ Loading issue details...
+      </div>
+    );
+  }
+
+  return (
+    <motion.div
+      className="max-w-5xl mx-auto p-6 bg-white/80 backdrop-blur-lg rounded-2xl shadow-2xl border border-gray-200 grid grid-cols-1 md:grid-cols-2 gap-6"
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
+    >
+      {/* Issue Details */}
+      <SectionCard title="Issue Details 🐞" icon={<FaBug className="text-red-500" />}>
+        <DetailItem label="ID" value={issue.issueId} />
+        <DetailItem label="Assigned to" value={issue.devAssigned || "Unassigned"} />
+        <DetailItem label="Track" value={issue.track || "Not specified"} />
+        <DetailItem label="Reported by" value={issue.reportedBy || "Anonymous"} />
+      </SectionCard>
+
+      {/* Issue Summary */}
+      <SectionCard title="Issue Summary 📋" icon={<FaListAlt className="text-green-500" />}>
+        <p className="text-gray-700">{issue.summary || "No summary provided."}</p>
+      </SectionCard>
+
+      {/* Issue Description */}
+      <SectionCard title="Issue Description 🛠️" icon={<FaTools className="text-blue-500" />}>
+        <p className="text-gray-700">{issue.description || "No description available."}</p>
+      </SectionCard>
+
+      {/* Insights */}
+      <SectionCard title="Insights 💡" icon={<FaLightbulb className="text-yellow-500 animate-pulse" />}>
+        <ul className="list-disc pl-5 text-gray-700 space-y-2">
+          {issue.insights?.length > 0 ? (
+            issue.insights.map((insight, idx) => <li key={idx}>{insight}</li>)
+          ) : (
+            <p className="italic text-gray-500">No insights yet. Still investigating...</p>
+          )}
+        </ul>
+      </SectionCard>
+
+      {/* Device Info */}
+      <SectionCard title="Device Info 📱" icon={<FaMobileAlt className="text-purple-500" />}>
+        <DetailItem label="Device" value={`${issue.deviceModel} (${issue.deviceId})`} />
+      </SectionCard>
+
+      {/* User Journey (Shortened) */}
+      <SectionCard title="User Journey 🗺️" icon={<FaRoute className="text-indigo-500" />}>
+        <UserJourney steps={issue.userJourney.slice(0, 3)} />
+        {issue.userJourney.length > 3 && <p className="text-sm text-gray-500">+ {issue.userJourney.length - 3} more steps...</p>}
+      </SectionCard>
+
+      {/* Related Links */}
+      <SectionCard title="Related Slack Threads 💬" icon={<FaSlackHash className="text-blue-400" />}>
+        <RelatedList items={issue.relatedSlackThreads} />
+      </SectionCard>
+    </motion.div>
+  );
+}
+
+// Reusable Card Component
+function SectionCard({ title, icon, children }) {
+  return (
+    <motion.div
+      className="p-5 bg-white/80 backdrop-blur-md rounded-xl shadow-md border border-gray-300 transform hover:scale-[1.02] hover:shadow-xl transition-all"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
+    >
+      <h3 className="text-lg font-semibold mb-3 flex items-center gap-2 text-gray-900">
+        {icon} {title}
+      </h3>
+      {children}
+    </motion.div>
+  );
+}
+
+// Reusable Detail Item
+function DetailItem({ label, value }) {
+  return (
+    <p className="text-gray-700 flex justify-between items-center">
+      <span className="font-medium text-gray-900">{label}:</span>
+      <span className="text-gray-600">{value}</span>
+    </p>
+  );
+}
+
+export default IssueDetails;
