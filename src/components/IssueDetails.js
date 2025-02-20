@@ -4,7 +4,7 @@ import RelatedList from "./RelatedList";
 import UserJourney from "./UserJourney";
 import { motion } from "framer-motion";
 import geminiIcon from "../gemini.png"; // Adjust path as needed
-import { FaBug, FaTools, FaMobileAlt, FaListAlt, FaSlackHash, FaUser, FaFlag, FaRoute, FaExpand, FaRegClone, FaLightbulb, FaPaperPlane } from "react-icons/fa";
+import { FaBug, FaTools, FaMobileAlt, FaLink, FaListAlt, FaSlackHash, FaUser, FaFlag, FaRoute, FaExpand, FaRegClone, FaLightbulb, FaPaperPlane } from "react-icons/fa";
 
 function GeminiChatbot() {
   const [userInput, setUserInput] = useState("");
