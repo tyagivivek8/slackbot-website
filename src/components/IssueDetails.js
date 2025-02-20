@@ -4,7 +4,7 @@ import RelatedList from "./RelatedList";
 import UserJourney from "./UserJourney";
 import { motion } from "framer-motion";
 import geminiIcon from "../gemini.png"; // Adjust path as needed
-import { FaBug, FaTools, FaMobileAlt, FaListAlt, FaSlackHash, FaUser, FaFlag, FaRoute, FaExpand } from "react-icons/fa";
+import { FaBug, FaTools, FaMobileAlt, FaListAlt, FaSlackHash, FaUser, FaFlag, FaRoute, FaExpand, FaRegClone } from "react-icons/fa";
 
 function IssueDetails({ issue }) {
   const [isFullScreen, setIsFullScreen] = useState(false);
@@ -25,7 +25,7 @@ function IssueDetails({ issue }) {
       transition={{ duration: 0.5, ease: "easeOut" }}
     >
       {/* Issue Details */}
-      <SectionCard title="Issue Details 🐞" icon={<FaBug className="text-red-500" />}>
+      <SectionCard title="Issue Details 🃏" icon={<FaRegClone className="text-red-500" />}> 
         <DetailItem label="ID" value={issue.issueId} />
         <DetailItem label="Assigned to" value={issue.devAssigned || "Unassigned"} />
         <DetailItem label="Track" value={issue.track || "Not specified"} />
@@ -33,17 +33,17 @@ function IssueDetails({ issue }) {
       </SectionCard>
 
       {/* Issue Summary */}
-      <SectionCard title="Issue Summary 📋" icon={<FaListAlt className="text-green-500" />}>
+      <SectionCard title="Issue Summary 📋" icon={<FaListAlt className="text-green-500" />}> 
         <p className="text-gray-700">{issue.summary || "No summary provided."}</p>
       </SectionCard>
 
       {/* Issue Description */}
-      <SectionCard title="Issue Description 🛠️" icon={<FaTools className="text-blue-500" />}>
+      <SectionCard title="Issue Description 🛠️" icon={<FaTools className="text-blue-500" />}> 
         <p className="text-gray-700">{issue.description || "No description available."}</p>
       </SectionCard>
 
-      {/* Insights (Using Gemini Icon) */}
-      <SectionCard title="Insights 💡" icon={geminiIcon}>
+      {/* Insights (Using Gemini Icon on the Right) */}
+      <SectionCard title="Insights 💡" iconRight={geminiIcon}>
         <ul className="list-disc pl-5 text-gray-700 space-y-2">
           {issue.insights?.length > 0 ? (
             issue.insights.map((insight, idx) => <li key={idx}>{insight}</li>)
@@ -54,12 +54,12 @@ function IssueDetails({ issue }) {
       </SectionCard>
 
       {/* Device Info */}
-      <SectionCard title="Device Info " icon={<FaMobileAlt className="text-purple-500" />}>
+      <SectionCard title="Device Info " icon={<FaMobileAlt className="text-purple-500" />}> 
         <DetailItem label="Device" value={`${issue.deviceModel} (${issue.deviceId})`} />
       </SectionCard>
 
       {/* User Journey with Full Screen Button */}
-      <SectionCard title="User Journey" icon={<FaRoute className="text-indigo-500" />}>
+      <SectionCard title="User Journey" icon={<FaRoute className="text-indigo-500" />}> 
         <UserJourney steps={issue.userJourney.slice(0, 3)} />
         {issue.userJourney.length > 3 && (
           <p className="text-sm text-gray-500">+ {issue.userJourney.length - 3} more steps...</p>
@@ -73,7 +73,7 @@ function IssueDetails({ issue }) {
       </SectionCard>
 
       {/* Related Links */}
-      <SectionCard title="Related Slack Threads 💬" icon={<FaSlackHash className="text-blue-400" />}>
+      <SectionCard title="Related Slack Threads 💬" icon={<FaSlackHash className="text-blue-400" />}> 
         <RelatedList items={issue.relatedSlackThreads} />
       </SectionCard>
 
@@ -96,8 +96,8 @@ function IssueDetails({ issue }) {
   );
 }
 
-// Reusable Card Component (Handles Both Icons and Images)
-function SectionCard({ title, icon, children }) {
+// Reusable Card Component (Handles Both Icons on Left and Right)
+function SectionCard({ title, icon, iconRight, children }) {
   return (
     <motion.div
       className="p-5 bg-white/80 backdrop-blur-md rounded-xl shadow-md border border-gray-300 transform hover:scale-[1.02] hover:shadow-xl transition-all"
@@ -105,13 +105,11 @@ function SectionCard({ title, icon, children }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, ease: "easeOut" }}
     >
-      <h3 className="text-lg font-semibold mb-3 flex items-center gap-2 text-gray-900">
-        {typeof icon === "string" ? (
-          <img src={icon} alt="Icon" className="w-6 h-6 object-contain" />
-        ) : (
-          icon
-        )}
-        {title}
+      <h3 className="text-lg font-semibold mb-3 flex items-center justify-between text-gray-900">
+        <span className="flex items-center gap-2">
+          {icon} {title}
+        </span>
+        {iconRight && <img src={iconRight} alt="Icon" className="w-6 h-6 object-contain" />}
       </h3>
       {children}
     </motion.div>
