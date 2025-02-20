@@ -4,8 +4,74 @@ import RelatedList from "./RelatedList";
 import UserJourney from "./UserJourney";
 import { motion } from "framer-motion";
 import geminiIcon from "../gemini.png"; // Adjust path as needed
-import { FaBug, FaTools, FaMobileAlt, FaListAlt, FaSlackHash, FaUser, FaFlag, FaRoute, FaExpand, FaRegClone, FaLightbulb } from "react-icons/fa";
+import { FaBug, FaTools, FaMobileAlt, FaListAlt, FaSlackHash, FaUser, FaFlag, FaRoute, FaExpand, FaRegClone, FaLightbulb, FaPaperPlane } from "react-icons/fa";
 
+function GeminiChatbot() {
+  const [userInput, setUserInput] = useState("");
+  const [chatHistory, setChatHistory] = useState([]);
+
+  const sendMessage = async () => {
+    if (!userInput.trim()) return;
+
+    const newChat = { sender: "user", text: userInput };
+    setChatHistory((prev) => [...prev, newChat]);
+
+    setUserInput("");
+
+    try {
+      const response = await fetch("https://api.google.com/gemini/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer AIzaSyAKdCfk7-gqpLZjlXnOcCN0gFq2r2uzlas`, // Warning: Do not expose API keys in the frontend!
+        },
+        body: JSON.stringify({ message: userInput }),
+      });
+
+      const data = await response.json();
+      setChatHistory((prev) => [...prev, { sender: "gemini", text: data.reply }]);
+    } catch (error) {
+      setChatHistory((prev) => [...prev, { sender: "gemini", text: "Error fetching response." }]);
+    }
+  };
+
+  return (
+    <div className="bg-gray-100 p-4 rounded-lg shadow-md">
+      <div className="h-40 overflow-y-auto border border-gray-300 p-2 bg-white rounded-lg mb-2">
+        {chatHistory.length === 0 ? (
+          <p className="text-gray-500 italic text-center">Ask Gemini about this issue...</p>
+        ) : (
+          chatHistory.map((msg, index) => (
+            <p key={index} className={`text-sm p-1 ${msg.sender === "user" ? "text-blue-600" : "text-gray-700"}`}>
+              <strong>{msg.sender === "user" ? "You" : "Gemini"}:</strong> {msg.text}
+            </p>
+          ))
+        )}
+      </div>
+      <div className="flex items-center">
+        <input
+          type="text"
+          className="flex-1 border p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Ask Gemini..."
+          value={userInput}
+          onChange={(e) => setUserInput(e.target.value)}
+        />
+        <button
+          className="ml-2 bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600"
+          onClick={sendMessage}
+        >
+          <FaPaperPlane />
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/*
+SectionCard title="Ask Gemini 🤖" iconRight={geminiIcon}>
+        <GeminiChatbot />
+      </SectionCard>
+*/
 function IssueDetails({ issue }) {
   const [isFullScreen, setIsFullScreen] = useState(false);
 
@@ -64,6 +130,10 @@ function IssueDetails({ issue }) {
         >
           <FaExpand className="mr-2" /> View Full Journey
         </button>
+      </SectionCard>
+
+      <SectionCard title="Ask Gemini 🤖" iconRight={geminiIcon}>
+        <GeminiChatbot />
       </SectionCard>
 
       <SectionCard title="Related Slack Threads 💬" icon={<FaSlackHash className="text-blue-400" />}> 
