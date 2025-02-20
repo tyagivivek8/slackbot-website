@@ -4,7 +4,7 @@ import RelatedList from "./RelatedList";
 import UserJourney from "./UserJourney";
 import { motion } from "framer-motion";
 import geminiIcon from "../gemini.png"; // Adjust path as needed
-import { FaBug, FaTools, FaMobileAlt, FaListAlt, FaSlackHash, FaUser, FaFlag, FaRoute, FaExpand, FaRegClone } from "react-icons/fa";
+import { FaBug, FaTools, FaMobileAlt, FaListAlt, FaSlackHash, FaUser, FaFlag, FaRoute, FaExpand, FaRegClone, FaLightbulb } from "react-icons/fa";
 
 function IssueDetails({ issue }) {
   const [isFullScreen, setIsFullScreen] = useState(false);
@@ -24,7 +24,6 @@ function IssueDetails({ issue }) {
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
     >
-      {/* Issue Details */}
       <SectionCard title="Issue Details 🃏" icon={<FaRegClone className="text-red-500" />}> 
         <DetailItem label="ID" value={issue.issueId} />
         <DetailItem label="Assigned to" value={issue.devAssigned || "Unassigned"} />
@@ -32,17 +31,14 @@ function IssueDetails({ issue }) {
         <DetailItem label="Reported by" value={issue.reportedBy || "Anonymous"} />
       </SectionCard>
 
-      {/* Issue Summary */}
       <SectionCard title="Issue Summary 📋" icon={<FaListAlt className="text-green-500" />}> 
         <p className="text-gray-700">{issue.summary || "No summary provided."}</p>
       </SectionCard>
 
-      {/* Issue Description */}
       <SectionCard title="Issue Description 🛠️" icon={<FaTools className="text-blue-500" />}> 
         <p className="text-gray-700">{issue.description || "No description available."}</p>
       </SectionCard>
 
-      {/* Insights (Using Gemini Icon on the Right) */}
       <SectionCard title="Insights 💡" iconRight={geminiIcon}>
         <ul className="list-disc pl-5 text-gray-700 space-y-2">
           {issue.insights?.length > 0 ? (
@@ -53,12 +49,10 @@ function IssueDetails({ issue }) {
         </ul>
       </SectionCard>
 
-      {/* Device Info */}
       <SectionCard title="Device Info " icon={<FaMobileAlt className="text-purple-500" />}> 
         <DetailItem label="Device" value={`${issue.deviceModel} (${issue.deviceId})`} />
       </SectionCard>
 
-      {/* User Journey with Full Screen Button */}
       <SectionCard title="User Journey" icon={<FaRoute className="text-indigo-500" />}> 
         <UserJourney steps={issue.userJourney.slice(0, 3)} />
         {issue.userJourney.length > 3 && (
@@ -72,12 +66,24 @@ function IssueDetails({ issue }) {
         </button>
       </SectionCard>
 
-      {/* Related Links */}
       <SectionCard title="Related Slack Threads 💬" icon={<FaSlackHash className="text-blue-400" />}> 
         <RelatedList items={issue.relatedSlackThreads} />
       </SectionCard>
 
-      {/* Full-Screen Modal */}
+      {/* New Section: How can I explain this to my PM */}
+      <SectionCard title="How can I explain this to my PM 🤔" icon={<FaLightbulb className="text-yellow-500" />}> 
+        <p className="text-gray-700">
+          To explain this issue clearly to your PM:
+        </p>
+        <ul className="list-disc pl-5 text-gray-700 space-y-2">
+          <li><strong>Problem Summary:</strong> Describe the issue in one sentence.</li>
+          <li><strong>Impact:</strong> Explain how it affects users, teams, or metrics.</li>
+          <li><strong>Root Cause:</strong> If known, mention what is causing the issue.</li>
+          <li><strong>Workaround:</strong> Suggest temporary solutions if applicable.</li>
+          <li><strong>Next Steps:</strong> Outline what needs to be done and estimated timelines.</li>
+        </ul>
+      </SectionCard>
+
       {isFullScreen && (
         <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-xl shadow-2xl w-11/12 max-w-4xl relative">
@@ -96,7 +102,6 @@ function IssueDetails({ issue }) {
   );
 }
 
-// Reusable Card Component (Handles Both Icons on Left and Right)
 function SectionCard({ title, icon, iconRight, children }) {
   return (
     <motion.div
@@ -116,7 +121,6 @@ function SectionCard({ title, icon, iconRight, children }) {
   );
 }
 
-// Reusable Detail Item
 function DetailItem({ label, value }) {
   return (
     <p className="text-gray-700 flex justify-between items-center">
