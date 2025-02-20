@@ -13,6 +13,9 @@ function GeminiChatbot() {
   const sendMessage = async () => {
     if (!userInput.trim()) return;
 
+    const hardcodedPrompt = "You are an AI assistant that is solving the Prod issue. Respond to the developer query appropriately for this particular prod issue.\n\n";
+    const fullMessage = hardcodedPrompt + userInput;
+
     const newChat = { sender: "user", text: userInput };
     setChatHistory((prev) => [...prev, newChat]);
 
@@ -25,16 +28,17 @@ function GeminiChatbot() {
           "Content-Type": "application/json",
           Authorization: `Bearer AIzaSyAKdCfk7-gqpLZjlXnOcCN0gFq2r2uzlas`, // Warning: Do not expose API keys in the frontend!
         },
-        body: JSON.stringify({ message: userInput }),
+        body: JSON.stringify({ message: fullMessage }),
       });
 
       const data = await response.json();
-      console.log(data)
+      console.log(data);
       setChatHistory((prev) => [...prev, { sender: "gemini", text: data.reply }]);
     } catch (error) {
       setChatHistory((prev) => [...prev, { sender: "gemini", text: "Error fetching response." }]);
     }
   };
+
 
   return (
     <div className="bg-gray-100 p-4 rounded-lg shadow-md">
