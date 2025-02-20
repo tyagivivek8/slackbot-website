@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import CollapsibleSection from "./CollapsibleSection";
 import RelatedList from "./RelatedList";
 import UserJourney from "./UserJourney";
+import WarRoomButton from "./WarRoomButton";
 import { motion } from "framer-motion";
 import geminiIcon from "../gemini.png"; // Adjust path as needed
 import axios from 'axios';
-import { FaBug, FaTools, FaMobileAlt, FaListAlt, FaSlackHash, FaUser, FaFlag, FaRoute, FaExpand, FaRegClone, FaLightbulb, FaPaperPlane } from "react-icons/fa";
+import { FaBug, FaTools, FaVideo, FaMobileAlt, FaLink, FaListAlt, FaSlackHash, FaUser, FaFlag, FaRoute, FaExpand, FaRegClone, FaLightbulb, FaPaperPlane } from "react-icons/fa";
 
 function GeminiChatbot({ issue }) {
     const [userInput, setUserInput] = useState("");
@@ -151,8 +152,24 @@ function IssueDetails({ issue }) {
         </button>
       </SectionCard>
 
-      <SectionCard title="Ask StressBuster 🤖" iconRight={geminiIcon}>
-        <GeminiChatbot issue={issue} />
+      <SectionCard title="Potentially Relevant APIs" icon={<FaTools className="text-orange-500" />}> 
+  <ul className="list-disc pl-5 text-gray-700 space-y-2">
+    {issue.relevantAPIs?.length > 0 ? (
+      issue.relevantAPIs.map((api, idx) => <li key={idx}>{api}</li>)
+    ) : (
+      <p className="italic text-gray-500">No relevant APIs identified yet.</p>
+    )}
+  </ul>
+</SectionCard>
+
+
+        <SectionCard title="Ask StressBuster 🤖" iconRight={geminiIcon}>
+            <GeminiChatbot issue={issue} />
+      </SectionCard>
+
+      <SectionCard title="Start War Room 🚀" icon={<FaVideo className="text-blue-500" />}>
+        <p className="text-gray-700">Quickly start a meeting to discuss this issue.</p>
+        <WarRoomButton />
       </SectionCard>
 
       <SectionCard title="Related Slack Threads 💬" icon={<FaSlackHash className="text-blue-400" />}> 
@@ -172,6 +189,19 @@ function IssueDetails({ issue }) {
           <li><strong>Next Steps:</strong> Outline what needs to be done and estimated timelines.</li>
         </ul>
       </SectionCard>
+
+      {/* New Section: Helpful Links */}
+<SectionCard title="Helpful Links 🔗" icon={<FaLink className="text-blue-500" />}>
+  <p className="text-gray-700">
+    Useful resources to understand and resolve the issue:
+  </p>
+  <ul className="list-disc pl-5 text-gray-700 space-y-2">
+    <li><a href="https://developer.apple.com/documentation/" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">Apple Developer Documentation</a></li>
+    <li><a href="https://swift.org/documentation/" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">Swift Official Documentation</a></li>
+    <li><a href="https://stackoverflow.com/" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">Stack Overflow</a></li>
+    <li><a href="https://github.com/" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">GitHub Repositories</a></li>
+  </ul>
+</SectionCard>
 
       {isFullScreen && (
         <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
