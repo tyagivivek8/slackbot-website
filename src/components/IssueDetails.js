@@ -137,6 +137,17 @@ function IssueDetails({ issue }) {
         </button>
       </SectionCard>
 
+      <SectionCard title="Potentially Relevant APIs" icon={<FaTools className="text-orange-500" />}> 
+  <ul className="list-disc pl-5 text-gray-700 space-y-2">
+    {issue.relevantAPIs?.length > 0 ? (
+      issue.relevantAPIs.map((api, idx) => <li key={idx}>{api}</li>)
+    ) : (
+      <p className="italic text-gray-500">No relevant APIs identified yet.</p>
+    )}
+  </ul>
+</SectionCard>
+
+
       <SectionCard title="Ask Gemini 🤖" iconRight={geminiIcon}>
         <GeminiChatbot />
       </SectionCard>
