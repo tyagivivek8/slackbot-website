@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import CollapsibleSection from "./CollapsibleSection";
 import RelatedList from "./RelatedList";
 import UserJourney from "./UserJourney";
+import WarRoomButton from "./WarRoomButton";
 import { motion } from "framer-motion";
 import geminiIcon from "../gemini.png"; // Adjust path as needed
-import { FaBug, FaTools, FaMobileAlt, FaLink, FaListAlt, FaSlackHash, FaUser, FaFlag, FaRoute, FaExpand, FaRegClone, FaLightbulb, FaPaperPlane } from "react-icons/fa";
+import { FaBug, FaTools, FaVideo, FaMobileAlt, FaLink, FaListAlt, FaSlackHash, FaUser, FaFlag, FaRoute, FaExpand, FaRegClone, FaLightbulb, FaPaperPlane } from "react-icons/fa";
 
 function GeminiChatbot() {
   const [userInput, setUserInput] = useState("");
@@ -100,7 +101,6 @@ function IssueDetails({ issue }) {
         <DetailItem label="Assigned to" value={issue.devAssigned || "Unassigned"} />
         <DetailItem label="Track" value={issue.track || "Not specified"} />
         <DetailItem label="Reported by" value={issue.reportedBy || "Anonymous"} />
-        <DetailItem label="Issue date" value={issue.reportedBy || "24-02-2025"} />
       </SectionCard>
 
       <SectionCard title="Issue Summary " icon={<FaListAlt className="text-green-500" />}> 
@@ -151,6 +151,11 @@ function IssueDetails({ issue }) {
 
       <SectionCard title="Ask Gemini 🤖" iconRight={geminiIcon}>
         <GeminiChatbot />
+      </SectionCard>
+
+      <SectionCard title="Start War Room 🚀" icon={<FaVideo className="text-blue-500" />}>
+        <p className="text-gray-700">Quickly start a meeting to discuss this issue.</p>
+        <WarRoomButton />
       </SectionCard>
 
       <SectionCard title="Related Slack Threads 💬" icon={<FaSlackHash className="text-blue-400" />}> 
