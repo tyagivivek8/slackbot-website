@@ -4,73 +4,87 @@ import RelatedList from "./RelatedList";
 import UserJourney from "./UserJourney";
 import { motion } from "framer-motion";
 import geminiIcon from "../gemini.png"; // Adjust path as needed
+import axios from 'axios';
 import { FaBug, FaTools, FaMobileAlt, FaListAlt, FaSlackHash, FaUser, FaFlag, FaRoute, FaExpand, FaRegClone, FaLightbulb, FaPaperPlane } from "react-icons/fa";
 
-function GeminiChatbot() {
-  const [userInput, setUserInput] = useState("");
-  const [chatHistory, setChatHistory] = useState([]);
-
-  const sendMessage = async () => {
-    if (!userInput.trim()) return;
-
-    const hardcodedPrompt = "You are an AI assistant that is solving the Prod issue. Respond to the developer query appropriately for this particular prod issue.\n\n";
-    const fullMessage = hardcodedPrompt + userInput;
-
-    const newChat = { sender: "user", text: userInput };
-    setChatHistory((prev) => [...prev, newChat]);
-
-    setUserInput("");
-
-    try {
-      const response = await fetch("https://api.google.com/gemini/chat", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer AIzaSyAKdCfk7-gqpLZjlXnOcCN0gFq2r2uzlas`, // Warning: Do not expose API keys in the frontend!
-        },
-        body: JSON.stringify({ message: fullMessage }),
-      });
-
-      const data = await response.json();
-      console.log(data);
-      setChatHistory((prev) => [...prev, { sender: "gemini", text: data.reply }]);
-    } catch (error) {
-      setChatHistory((prev) => [...prev, { sender: "gemini", text: "Error fetching response." }]);
-    }
-  };
-
-
-  return (
-    <div className="bg-gray-100 p-4 rounded-lg shadow-md">
-      <div className="h-40 overflow-y-auto border border-gray-300 p-2 bg-white rounded-lg mb-2">
-        {chatHistory.length === 0 ? (
-          <p className="text-gray-500 italic text-center">Ask Gemini about this issue...</p>
-        ) : (
-          chatHistory.map((msg, index) => (
-            <p key={index} className={`text-sm p-1 ${msg.sender === "user" ? "text-blue-600" : "text-gray-700"}`}>
-              <strong>{msg.sender === "user" ? "You" : "Gemini"}:</strong> {msg.text}
+function GeminiChatbot({ issue }) {
+    const [userInput, setUserInput] = useState("");
+    const [chatHistory, setChatHistory] = useState([]);
+  
+    const sendMessage = async (e) => {
+      e.preventDefault(); // Prevent form submission from reloading the page.
+      if (!userInput.trim()) return;
+      
+      // Add user's message to the conversation.
+      const newChat = { sender: "user", text: userInput };
+      setChatHistory((prev) => [...prev, newChat]);
+  
+      // Capture the current message before clearing input.
+      const currentMessage = userInput;
+      setUserInput("");
+  
+      try {
+        // Call the Gemini chatbot API.
+        const response = await axios.post("http://localhost:5667/api/chatbot", {
+          message: currentMessage,
+          issue: issue
+        });
+        const botResponse = response.data.response;
+        setChatHistory((prev) => [
+          ...prev,
+          { sender: "bot", text: botResponse },
+        ]);
+      } catch (err) {
+        console.error("Error fetching chatbot response:", err);
+        setChatHistory((prev) => [
+          ...prev,
+          {
+            sender: "bot",
+            text: "Sorry, there was an error getting a response.",
+          },
+        ]);
+      }
+    };
+  
+    return (
+      <div className="bg-gray-100 p-4 rounded-lg shadow-md">
+        <div className="h-40 overflow-y-auto border border-gray-300 p-2 bg-white rounded-lg mb-2">
+          {chatHistory.length === 0 ? (
+            <p className="text-gray-500 italic text-center">
+              Ask StressBuster about this issue...
             </p>
-          ))
-        )}
+          ) : (
+            chatHistory.map((msg, index) => (
+              <p
+                key={index}
+                className={`text-sm p-1 ${
+                  msg.sender === "user" ? "text-blue-600" : "text-gray-700"
+                }`}
+              >
+                <strong>{msg.sender === "user" ? "You" : "StressBuster"}:</strong>{" "}
+                {msg.text}
+              </p>
+            ))
+          )}
+        </div>
+        <form onSubmit={sendMessage} className="flex items-center">
+          <input
+            type="text"
+            className="flex-1 border p-2 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Ask Stressbuster..."
+            value={userInput}
+            onChange={(e) => setUserInput(e.target.value)}
+          />
+          <button
+            type="submit"
+            className="ml-2 bg-blue-500 text-white p-2 rounded-r-lg hover:bg-blue-600 transition"
+          >
+            <FaPaperPlane />
+          </button>
+        </form>
       </div>
-      <div className="flex items-center">
-        <input
-          type="text"
-          className="flex-1 border p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="Ask Gemini..."
-          value={userInput}
-          onChange={(e) => setUserInput(e.target.value)}
-        />
-        <button
-          className="ml-2 bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600"
-          onClick={sendMessage}
-        >
-          <FaPaperPlane />
-        </button>
-      </div>
-    </div>
-  );
-}
+    );
+  }
 
 /*
 SectionCard title="Ask Gemini 🤖" iconRight={geminiIcon}>
@@ -137,8 +151,8 @@ function IssueDetails({ issue }) {
         </button>
       </SectionCard>
 
-      <SectionCard title="Ask Gemini 🤖" iconRight={geminiIcon}>
-        <GeminiChatbot />
+      <SectionCard title="Ask StressBuster 🤖" iconRight={geminiIcon}>
+        <GeminiChatbot issue={issue} />
       </SectionCard>
 
       <SectionCard title="Related Slack Threads 💬" icon={<FaSlackHash className="text-blue-400" />}> 
