@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import CollapsibleSection from "./CollapsibleSection";
 import RelatedList from "./RelatedList";
 import UserJourney from "./UserJourney";
 import { motion } from "framer-motion";
-import { FaBug, FaTools, FaMobileAlt, FaLightbulb, FaListAlt, FaSlackHash, FaUser, FaFlag, FaRoute } from "react-icons/fa";
+import geminiIcon from "../gemini.png"; // Adjust path as needed
+import { FaBug, FaTools, FaMobileAlt, FaListAlt, FaSlackHash, FaUser, FaFlag, FaRoute, FaExpand } from "react-icons/fa";
 
 function IssueDetails({ issue }) {
+  const [isFullScreen, setIsFullScreen] = useState(false);
+
   if (!issue) {
     return (
       <div className="text-center text-gray-500 mt-8 text-lg animate-pulse">
@@ -39,8 +42,8 @@ function IssueDetails({ issue }) {
         <p className="text-gray-700">{issue.description || "No description available."}</p>
       </SectionCard>
 
-      {/* Insights */}
-      <SectionCard title="Insights 💡" icon={<FaLightbulb className="text-yellow-500 animate-pulse" />}>
+      {/* Insights (Using Gemini Icon) */}
+      <SectionCard title="Insights 💡" icon={geminiIcon}>
         <ul className="list-disc pl-5 text-gray-700 space-y-2">
           {issue.insights?.length > 0 ? (
             issue.insights.map((insight, idx) => <li key={idx}>{insight}</li>)
@@ -51,25 +54,49 @@ function IssueDetails({ issue }) {
       </SectionCard>
 
       {/* Device Info */}
-      <SectionCard title="Device Info 📱" icon={<FaMobileAlt className="text-purple-500" />}>
+      <SectionCard title="Device Info " icon={<FaMobileAlt className="text-purple-500" />}>
         <DetailItem label="Device" value={`${issue.deviceModel} (${issue.deviceId})`} />
       </SectionCard>
 
-      {/* User Journey (Shortened) */}
-      <SectionCard title="User Journey 🗺️" icon={<FaRoute className="text-indigo-500" />}>
+      {/* User Journey with Full Screen Button */}
+      <SectionCard title="User Journey" icon={<FaRoute className="text-indigo-500" />}>
         <UserJourney steps={issue.userJourney.slice(0, 3)} />
-        {issue.userJourney.length > 3 && <p className="text-sm text-gray-500">+ {issue.userJourney.length - 3} more steps...</p>}
+        {issue.userJourney.length > 3 && (
+          <p className="text-sm text-gray-500">+ {issue.userJourney.length - 3} more steps...</p>
+        )}
+        <button
+          onClick={() => setIsFullScreen(true)}
+          className="mt-2 flex items-center text-blue-600 hover:underline"
+        >
+          <FaExpand className="mr-2" /> View Full Journey
+        </button>
       </SectionCard>
 
       {/* Related Links */}
       <SectionCard title="Related Slack Threads 💬" icon={<FaSlackHash className="text-blue-400" />}>
         <RelatedList items={issue.relatedSlackThreads} />
       </SectionCard>
+
+      {/* Full-Screen Modal */}
+      {isFullScreen && (
+        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-xl shadow-2xl w-11/12 max-w-4xl relative">
+            <button
+              onClick={() => setIsFullScreen(false)}
+              className="absolute top-4 right-4 text-gray-600 hover:text-gray-900"
+            >
+              ✖
+            </button>
+            <h2 className="text-2xl font-semibold mb-4">Full User Journey</h2>
+            <UserJourney steps={issue.userJourney} />
+          </div>
+        </div>
+      )}
     </motion.div>
   );
 }
 
-// Reusable Card Component
+// Reusable Card Component (Handles Both Icons and Images)
 function SectionCard({ title, icon, children }) {
   return (
     <motion.div
@@ -79,7 +106,12 @@ function SectionCard({ title, icon, children }) {
       transition={{ duration: 0.3, ease: "easeOut" }}
     >
       <h3 className="text-lg font-semibold mb-3 flex items-center gap-2 text-gray-900">
-        {icon} {title}
+        {typeof icon === "string" ? (
+          <img src={icon} alt="Icon" className="w-6 h-6 object-contain" />
+        ) : (
+          icon
+        )}
+        {title}
       </h3>
       {children}
     </motion.div>
