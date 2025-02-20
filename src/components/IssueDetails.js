@@ -111,7 +111,7 @@ function IssueDetails({ issue }) {
       transition={{ duration: 0.5, ease: "easeOut" }}
     >
       <SectionCard title="Issue Details " icon={<FaRegClone className="text-red-500" />}> 
-        <DetailItem label="ID" value={issue.issueId} />
+        <DetailItem label="ID" value={issue.issue_id} />
         <DetailItem label="Assigned to" value={issue.devAssigned || "Unassigned"} />
         <DetailItem label="Track" value={issue.track || "Not specified"} />
         <DetailItem label="Reported by" value={issue.reportedBy || "Anonymous"} />
@@ -136,13 +136,17 @@ function IssueDetails({ issue }) {
       </SectionCard>
 
       <SectionCard title="Device Info " icon={<FaMobileAlt className="text-purple-500" />}> 
-        <DetailItem label="Device" value={`${issue.deviceModel} (${issue.deviceId})`} />
+        <DetailItem label="Device" value={`${issue.eventdata_devicemanufacturer} (${issue.eventdata_devicemodel})`} />
+        <DetailItem label="OS" value={`${issue.eventdata_osname} v${issue.eventdata_osversion}`} />
+        <DetailItem label="App version" value={`${issue.eventdata_appversion} (${issue.eventdata_versioncode})`} />
+        <DetailItem label="Network" value={`${issue.eventdata_currentnetwork}`} />
+        <DetailItem label="User ID" value={`${issue.eventdata_userid}`} />
       </SectionCard>
 
       <SectionCard title="User Journey" icon={<FaRoute className="text-indigo-500" />}> 
-        <UserJourney steps={issue.userJourney.slice(0, 3)} />
-        {issue.userJourney.length > 3 && (
-          <p className="text-sm text-gray-500">+ {issue.userJourney.length - 3} more steps...</p>
+        <UserJourney steps={issue.journey?.slice(0, 3)} />
+        {issue.journey?.length > 3 && (
+          <p className="text-sm text-gray-500">+ {issue.journey.length - 3} more steps...</p>
         )}
         <button
           onClick={() => setIsFullScreen(true)}
@@ -179,15 +183,8 @@ function IssueDetails({ issue }) {
       {/* New Section: How can I explain this to my PM */}
       <SectionCard title="How can I explain this to my PM 🤔" icon={<FaLightbulb className="text-yellow-500" />}> 
         <p className="text-gray-700">
-          To explain this issue clearly to your PM:
+          `"${issue.explainPM}"`
         </p>
-        <ul className="list-disc pl-5 text-gray-700 space-y-2">
-          <li><strong>Problem Summary:</strong> Describe the issue in one sentence.</li>
-          <li><strong>Impact:</strong> Explain how it affects users, teams, or metrics.</li>
-          <li><strong>Root Cause:</strong> If known, mention what is causing the issue.</li>
-          <li><strong>Workaround:</strong> Suggest temporary solutions if applicable.</li>
-          <li><strong>Next Steps:</strong> Outline what needs to be done and estimated timelines.</li>
-        </ul>
       </SectionCard>
 
       {/* New Section: Helpful Links */}
@@ -213,7 +210,7 @@ function IssueDetails({ issue }) {
               ✖
             </button>
             <h2 className="text-2xl font-semibold mb-4">Full User Journey</h2>
-            <UserJourney steps={issue.userJourney} />
+            <UserJourney steps={issue.journey} />
           </div>
         </div>
       )}

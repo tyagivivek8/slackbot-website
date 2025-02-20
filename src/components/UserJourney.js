@@ -25,8 +25,8 @@ function UserJourney({ steps }) {
 
   // Limit visible steps in the main view
   const previewCount = 5;
-  const displayedSteps = steps.slice(0, previewCount);
-  const remainingCount = steps.length - previewCount;
+  const displayedSteps = steps?.slice(0, previewCount);
+  const remainingCount = steps?.length - previewCount;
   const hasMore = remainingCount > 0;
 
   // Render the flow of steps
