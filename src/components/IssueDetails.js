@@ -6,6 +6,7 @@ import WarRoomButton from "./WarRoomButton";
 import { motion } from "framer-motion";
 import geminiIcon from "../gemini.png"; // Adjust path as needed
 import axios from 'axios';
+import { useEffect } from "react";
 import { FaBug, FaTools, FaVideo, FaMobileAlt, FaImage, FaLink, FaListAlt, FaSlackHash, FaUser, FaFlag, FaRoute, FaExpand, FaRegClone, FaLightbulb, FaPaperPlane } from "react-icons/fa";
 
 function GeminiChatbot({ issue }) {
@@ -87,18 +88,40 @@ function GeminiChatbot({ issue }) {
     );
   }
 
-/*
-SectionCard title="Ask Gemini 🤖" iconRight={geminiIcon}>
-        <GeminiChatbot />
-      </SectionCard>
-*/
+  const messages = [
+    "🕵️‍♂️ Investigating... or just staring at the screen. Hard to tell.",
+    "🐛 Debugging the bug that’s debugging me...",
+    "🛠️ Assembling the issue details... IKEA-style.",
+    "🎩 Pulling issue details out of a hat. Stay tuned!",
+    "🤔 Thinking... Thinking... Still thinking...",
+    "📡 Sending signals to the issue server... Hope it responds!",
+  ];
+  
+  function IssueLoader() {
+    const [message, setMessage] = useState(messages[0]);
+  
+    useEffect(() => {
+      const interval = setInterval(() => {
+        setMessage(messages[Math.floor(Math.random() * messages.length)]);
+      }, 3000);
+  
+      return () => clearInterval(interval);
+    }, []);
+  
+    return (
+      <div className="text-center text-gray-500 mt-8 text-lg animate-pulse">
+        {message}
+      </div>
+    );
+  }
+  
 function IssueDetails({ issue }) {
   const [isFullScreen, setIsFullScreen] = useState(false);
 
   if (!issue) {
     return (
       <div className="text-center text-gray-500 mt-8 text-lg animate-pulse">
-        🕵️‍♂️ Loading issue details...
+        <IssueLoader/>
       </div>
     );
   }
