@@ -215,7 +215,7 @@ function IssueDetails({ issue }) {
       </SectionCard>
 
       <SectionCard title="Related Issues 💬" icon={<FaSlackHash className="text-blue-400" />}> 
-        <RelatedList items={issue.relatedSlackThreads} />
+        <RelatedList items={issue.related_issues} />
       </SectionCard>
 
       {/* New Section: How can I explain this to my PM */}
