@@ -6,7 +6,7 @@ import WarRoomButton from "./WarRoomButton";
 import { motion } from "framer-motion";
 import geminiIcon from "../gemini.png"; // Adjust path as needed
 import axios from 'axios';
-import { FaBug, FaTools, FaVideo, FaMobileAlt, FaLink, FaListAlt, FaSlackHash, FaUser, FaFlag, FaRoute, FaExpand, FaRegClone, FaLightbulb, FaPaperPlane } from "react-icons/fa";
+import { FaBug, FaTools, FaVideo, FaMobileAlt, FaImage, FaLink, FaListAlt, FaSlackHash, FaUser, FaFlag, FaRoute, FaExpand, FaRegClone, FaLightbulb, FaPaperPlane } from "react-icons/fa";
 
 function GeminiChatbot({ issue }) {
     const [userInput, setUserInput] = useState("");
@@ -186,6 +186,17 @@ function IssueDetails({ issue }) {
         <p className="text-gray-700">
           `"${issue.explainPM}"`
         </p>
+      </SectionCard>
+
+      {/* New Section: Image Display */}
+      <SectionCard title="" icon={<FaImage className="text-blue-500" />}> 
+        <div className="flex justify-center">
+          <img
+            src="https://configcat.com/blog/assets/images/17-test-in-production-fe501504a8a9ef242ce6b8120b674f8f.jpg"
+            alt="Issue Representation"
+            className="rounded-lg shadow-lg max-w-full h-auto"
+          />
+        </div>
       </SectionCard>
 
       {/* New Section: Helpful Links */}
