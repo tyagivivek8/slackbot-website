@@ -112,9 +112,10 @@ function IssueDetails({ issue }) {
     >
       <SectionCard title="Issue Details " icon={<FaRegClone className="text-red-500" />}> 
         <DetailItem label="ID" value={issue.issue_id} />
-        <DetailItem label="Assigned to" value={issue.devAssigned || "Unassigned"} />
-        <DetailItem label="Track" value={issue.track || "Not specified"} />
-        <DetailItem label="Reported by" value={issue.reportedBy || "Anonymous"} />
+        <DetailItem label="Assigned to" value={issue.devAssigned || "Alankrita"} />
+        <DetailItem label="Track" value={issue.track || "Pre-Txn"} />
+        <DetailItem label="Reported by" value={issue.reportedBy || "Mayank"} />
+        <DetailItem label="Created at" value={issue.createdAt || "24-01-2025"} />
       </SectionCard>
 
       <SectionCard title="Issue Summary " icon={<FaListAlt className="text-green-500" />}> 
