@@ -143,7 +143,18 @@ function IssueDetails({ issue }) {
         <DetailItem label="User ID" value={`${issue.eventdata_userid}`} />
       </SectionCard>
 
-      <SectionCard title="User Journey" icon={<FaRoute className="text-indigo-500" />}> <div className="text-left w-full"> {/* Ensures content is left-aligned */} <UserJourney steps={issue.journey?.slice(0, 3)} /> {issue.journey?.length > 3 && ( <p className="text-sm text-gray-500">+ {issue.journey?.length - 3} more steps...</p> )} <button onClick={() => setIsFullScreen(true)} className="mt-2 flex items-center text-blue-600 hover:underline" > <FaExpand className="mr-2" /> View Full Journey </button> {/* Add Echo URL Link */} {issue.echo_url && ( <p className="mt-3"> <a href={issue.echo_url} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline" > Open Echo URL </a> </p> )} </div> </SectionCard>
+      <SectionCard title="User Journey" icon={<FaRoute className="text-indigo-500" />}> 
+        <UserJourney steps={issue.journey?.slice(0, 3)} />
+        {issue.journey?.length > 3 && (
+          <p className="text-sm text-gray-500">+ {issue.journey.length - 3} more steps...</p>
+        )}
+        <button
+          onClick={() => setIsFullScreen(true)}
+          className="mt-2 flex items-center text-blue-600 hover:underline"
+        >
+          <FaExpand className="mr-2" /> View Full Journey
+        </button>
+      </SectionCard>
 
       <SectionCard title="Potentially Relevant APIs" icon={<FaTools className="text-orange-500" />}> 
   <ul className="list-disc pl-5 text-gray-700 space-y-2">
