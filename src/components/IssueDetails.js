@@ -208,12 +208,24 @@ function IssueDetails({ issue }) {
       <SectionCard title="Potentially Relevant APIs" icon={<FaTools className="text-orange-500" />}> 
   <ul className="list-disc pl-5 text-gray-700 space-y-2">
     {issue.relevant_apis?.length > 0 ? (
-      issue.relevant_apis.map((api, idx) => <li key={idx}>{api}</li>)
+      issue.relevant_apis.map((api, idx) => (
+        <li key={idx}>
+          <a
+            href={`https://web.postman.co/workspace/new/request/import/curl?curl=${encodeURIComponent(api)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 hover:underline"
+          >
+            {api}
+          </a>
+        </li>
+      ))
     ) : (
       <p className="italic text-gray-500">No relevant APIs identified yet.</p>
     )}
   </ul>
 </SectionCard>
+
 
 
         <SectionCard title="Ask StressBuster 🤖" iconRight={geminiIcon}>
