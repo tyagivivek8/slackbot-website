@@ -191,6 +191,7 @@ function IssueDetails({ issue }) {
         >
           <FaExpand className="mr-2" /> View Full Journey
         </button>
+        {/* Add Echo URL Link */} {issue.echo_url && ( <p className="mt-3"><a href={issue.echo_url} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline" > Open Echo URL </a></p> )}
       </SectionCard>
 
       <SectionCard title="Potentially Relevant APIs" icon={<FaTools className="text-orange-500" />}> 
