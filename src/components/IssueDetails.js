@@ -27,7 +27,7 @@ function GeminiChatbot({ issue }) {
   
       try {
         // Call the Gemini chatbot API.
-        const response = await axios.post("http://localhost:5667/api/chatbot", {
+        const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/chatbot`, {
           message: currentMessage,
           issue: issue
         });
