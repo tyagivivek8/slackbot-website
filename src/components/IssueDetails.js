@@ -15,7 +15,7 @@ const memeUrls = [
   "https://configcat.com/blog/assets/images/9-live-dangerously-da40a91e83aa9d9ad82b48c48083dbbd.jpg",
   "https://configcat.com/blog/assets/images/17-test-in-production-fe501504a8a9ef242ce6b8120b674f8f.jpg"
 ];
-
+function getSentimentEmoji(sentiment) { if (sentiment === "positive") return "😃"; if (sentiment === "neutral") return "😐"; if (sentiment === "negative") return ":angry:"; return "😔"; }
 
 function getRandomMeme() {
   const randomIndex = Math.floor(Math.random() * memeUrls.length);
@@ -158,9 +158,20 @@ function IssueDetails({ issue }) {
         <p className="text-gray-700">{issue.summary || "No summary provided."}</p>
       </SectionCard>
 
-      <SectionCard title="Issue Description " icon={<FaTools className="text-blue-500" />}> 
-        <p className="text-gray-700">{issue.issue_description || "No description available."}</p>
-      </SectionCard>
+      <SectionCard
+  title="Issue Description"
+  icon={
+    <div className="flex items-center gap-2">
+      {getSentimentEmoji(issue.sentiment)}
+    </div>
+  }
+>
+  <p className="text-gray-700">
+    {issue.issue_description || "No description available."}
+  </p>
+</SectionCard>
+
+
 
       <SectionCard title="Insights 💡" iconRight={geminiIcon}>
         <ul className="list-disc pl-5 text-gray-700 space-y-2">
