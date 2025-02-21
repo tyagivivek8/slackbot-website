@@ -33,7 +33,7 @@ function UserJourney({ steps }) {
   const renderFlow = useCallback(
     (stepsToRender, includeMoreIndicator = false) => (
       <div className="flex flex-col items-center">
-        {stepsToRender.map((step, idx) => (
+        {stepsToRender?.map((step, idx) => (
           <div key={idx} className="mb-4 w-full flex flex-col items-center">
             <div className="bg-gray-100 p-3 rounded-md shadow-sm text-gray-700 text-center w-full">
               <div className="font-semibold">{step.name}</div>
