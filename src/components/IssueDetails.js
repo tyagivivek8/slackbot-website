@@ -200,7 +200,7 @@ function IssueDetails({ issue }) {
         <WarRoomButton />
       </SectionCard>
 
-      <SectionCard title="Related Slack Threads 💬" icon={<FaSlackHash className="text-blue-400" />}> 
+      <SectionCard title="Related Issues 💬" icon={<FaSlackHash className="text-blue-400" />}> 
         <RelatedList items={issue.relatedSlackThreads} />
       </SectionCard>
 
