@@ -9,6 +9,19 @@ import axios from 'axios';
 import { useEffect } from "react";
 import { FaBug, FaTools, FaVideo, FaMobileAlt, FaImage, FaLink, FaListAlt, FaSlackHash, FaUser, FaFlag, FaRoute, FaExpand, FaRegClone, FaLightbulb, FaPaperPlane } from "react-icons/fa";
 
+const memeUrls = [
+  "https://configcat.com/blog/assets/images/2-stand-back-8d3f2f64c38cdbf8c6c33b91105f785a.jpg",
+  "https://configcat.com/blog/assets/images/7-live-on-edge-04cbec98cffcf86e93418f8449ce5125.jpg",
+  "https://configcat.com/blog/assets/images/9-live-dangerously-da40a91e83aa9d9ad82b48c48083dbbd.jpg",
+  "https://configcat.com/blog/assets/images/17-test-in-production-fe501504a8a9ef242ce6b8120b674f8f.jpg"
+];
+
+
+function getRandomMeme() {
+  const randomIndex = Math.floor(Math.random() * memeUrls.length);
+  return memeUrls[randomIndex];
+}
+
 function GeminiChatbot({ issue }) {
     const [userInput, setUserInput] = useState("");
     const [chatHistory, setChatHistory] = useState([]);
@@ -215,7 +228,7 @@ function IssueDetails({ issue }) {
       <SectionCard title="" icon={<FaImage className="text-blue-500" />}> 
         <div className="flex justify-center">
           <img
-            src="https://configcat.com/blog/assets/images/17-test-in-production-fe501504a8a9ef242ce6b8120b674f8f.jpg"
+            src={getRandomMeme()}
             alt="Issue Representation"
             className="rounded-lg shadow-lg max-w-full h-auto"
           />
