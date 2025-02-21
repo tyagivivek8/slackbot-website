@@ -11,7 +11,6 @@ import { FaBug, FaTools, FaVideo, FaMobileAlt, FaImage, FaLink, FaListAlt, FaSla
 
 const memeUrls = [
   "https://configcat.com/blog/assets/images/2-stand-back-8d3f2f64c38cdbf8c6c33b91105f785a.jpg",
-  "https://configcat.com/blog/assets/images/7-live-on-edge-04cbec98cffcf86e93418f8449ce5125.jpg",
   "https://configcat.com/blog/assets/images/9-live-dangerously-da40a91e83aa9d9ad82b48c48083dbbd.jpg",
   "https://configcat.com/blog/assets/images/17-test-in-production-fe501504a8a9ef242ce6b8120b674f8f.jpg"
 ];
@@ -243,9 +242,13 @@ function IssueDetails({ issue }) {
 
       {/* New Section: How can I explain this to my PM */}
       <SectionCard title="How can I explain this to my PM 🤔" icon={<FaLightbulb className="text-yellow-500" />}> 
-        <p className="text-gray-700">
-          `"${issue.explainPM}"`
-        </p>
+        <ul className="list-disc pl-5 text-gray-700 space-y-2">
+          {issue.explainPM?.length > 0 ? (
+            issue.explainPM.map((insight, idx) => <li key={idx}>{insight}</li>)
+          ) : (
+            <p className="italic text-gray-500">No explanation yet. Still investigating...</p>
+          )}
+        </ul>
       </SectionCard>
 
       {/* New Section: Image Display */}
