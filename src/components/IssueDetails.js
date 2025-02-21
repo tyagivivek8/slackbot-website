@@ -146,7 +146,7 @@ function IssueDetails({ issue }) {
       </SectionCard>
 
       <SectionCard title="Issue Description " icon={<FaTools className="text-blue-500" />}> 
-        <p className="text-gray-700">{issue.description || "No description available."}</p>
+        <p className="text-gray-700">{issue.issue_description || "No description available."}</p>
       </SectionCard>
 
       <SectionCard title="Insights 💡" iconRight={geminiIcon}>
